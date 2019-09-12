@@ -14,10 +14,14 @@ type Deck {
   id: ID! @id
   name: String!
   cards: [Card]!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Card {
   id: ID! @id
   front: String
   back: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
