@@ -5,7 +5,7 @@ type SuccessMessage {
 }
 
 type Mutation {
-  signup(email: String!, password: String!, name: String!, phone: String): User!
+  signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
   signin(email: String!, password: String!): User!
   signout: SuccessMessage
   requestReset(email: String!): SuccessMessage
@@ -14,4 +14,5 @@ type Mutation {
 
 type Query {
   me: User
+  deck(id: ID!): Deck!
 }

@@ -21,7 +21,6 @@ const Mutations = {
           ...args,
           password: await bcrypt.hash(args.password, 10),
           email: args.email.toLowerCase(),
-          permissions: [],
         },
       },
       `{ id, email }`
@@ -83,7 +82,7 @@ const Mutations = {
     });
 
     await transport.sendMail({
-      from: 'admin@fuse.com',
+      from: 'donotreply@brightflashcards.com',
       to: user.email,
       subject: 'Your Password Reset Token',
       html: template(`Your Password Reset Token is here!

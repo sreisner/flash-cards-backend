@@ -12,6 +12,23 @@ const Query = {
     );
     return user;
   },
+
+  async deck(parent, args, ctx, info) {
+    if (!ctx.request.user) {
+      return null;
+    }
+
+    if (!ctx.request.user.decks.find(deck => deck.id === args.id)) {
+      throw `This deck doesn't exist or you don't have permission to see this deck!`;
+    }
+
+    return await ctx.db.query.deck(
+      {
+        where: { id: args.id },
+      },
+      info
+    );
+  },
 };
 
 module.exports = Query;
