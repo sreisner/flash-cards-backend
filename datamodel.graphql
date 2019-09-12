@@ -1,4 +1,23 @@
 type User {
   id: ID! @id
   name: String!
+  email: String! @unique
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  decks: [Deck]!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Deck {
+  id: ID! @id
+  name: String!
+  cards: [Card]!
+}
+
+type Card {
+  id: ID! @id
+  front: String
+  back: String
 }

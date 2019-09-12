@@ -1,5 +1,13 @@
 # source: https://us1.prisma.sh/shawn-reisner-e6118b/flash-cards/dev
-# timestamp: Mon Sep 09 2019 18:28:51 GMT-0600 (Mountain Daylight Time)
+# timestamp: Thu Sep 12 2019 06:18:11 GMT-0600 (Mountain Daylight Time)
+
+type AggregateCard {
+  count: Int!
+}
+
+type AggregateDeck {
+  count: Int!
+}
 
 type AggregateUser {
   count: Int!
@@ -10,6 +18,730 @@ type BatchPayload {
   count: Long!
 }
 
+type Card implements Node {
+  id: ID!
+  front: String
+  back: String
+}
+
+"""A connection to a list of items."""
+type CardConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [CardEdge]!
+  aggregate: AggregateCard!
+}
+
+input CardCreateInput {
+  id: ID
+  front: String
+  back: String
+}
+
+input CardCreateManyInput {
+  create: [CardCreateInput!]
+  connect: [CardWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type CardEdge {
+  """The item at the end of the edge."""
+  node: Card!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum CardOrderByInput {
+  id_ASC
+  id_DESC
+  front_ASC
+  front_DESC
+  back_ASC
+  back_DESC
+}
+
+type CardPreviousValues {
+  id: ID!
+  front: String
+  back: String
+}
+
+input CardScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CardScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CardScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CardScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  front: String
+
+  """All values that are not equal to given value."""
+  front_not: String
+
+  """All values that are contained in given list."""
+  front_in: [String!]
+
+  """All values that are not contained in given list."""
+  front_not_in: [String!]
+
+  """All values less than the given value."""
+  front_lt: String
+
+  """All values less than or equal the given value."""
+  front_lte: String
+
+  """All values greater than the given value."""
+  front_gt: String
+
+  """All values greater than or equal the given value."""
+  front_gte: String
+
+  """All values containing the given string."""
+  front_contains: String
+
+  """All values not containing the given string."""
+  front_not_contains: String
+
+  """All values starting with the given string."""
+  front_starts_with: String
+
+  """All values not starting with the given string."""
+  front_not_starts_with: String
+
+  """All values ending with the given string."""
+  front_ends_with: String
+
+  """All values not ending with the given string."""
+  front_not_ends_with: String
+  back: String
+
+  """All values that are not equal to given value."""
+  back_not: String
+
+  """All values that are contained in given list."""
+  back_in: [String!]
+
+  """All values that are not contained in given list."""
+  back_not_in: [String!]
+
+  """All values less than the given value."""
+  back_lt: String
+
+  """All values less than or equal the given value."""
+  back_lte: String
+
+  """All values greater than the given value."""
+  back_gt: String
+
+  """All values greater than or equal the given value."""
+  back_gte: String
+
+  """All values containing the given string."""
+  back_contains: String
+
+  """All values not containing the given string."""
+  back_not_contains: String
+
+  """All values starting with the given string."""
+  back_starts_with: String
+
+  """All values not starting with the given string."""
+  back_not_starts_with: String
+
+  """All values ending with the given string."""
+  back_ends_with: String
+
+  """All values not ending with the given string."""
+  back_not_ends_with: String
+}
+
+type CardSubscriptionPayload {
+  mutation: MutationType!
+  node: Card
+  updatedFields: [String!]
+  previousValues: CardPreviousValues
+}
+
+input CardSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CardSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CardSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CardSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: CardWhereInput
+}
+
+input CardUpdateDataInput {
+  front: String
+  back: String
+}
+
+input CardUpdateInput {
+  front: String
+  back: String
+}
+
+input CardUpdateManyDataInput {
+  front: String
+  back: String
+}
+
+input CardUpdateManyInput {
+  create: [CardCreateInput!]
+  connect: [CardWhereUniqueInput!]
+  set: [CardWhereUniqueInput!]
+  disconnect: [CardWhereUniqueInput!]
+  delete: [CardWhereUniqueInput!]
+  update: [CardUpdateWithWhereUniqueNestedInput!]
+  updateMany: [CardUpdateManyWithWhereNestedInput!]
+  deleteMany: [CardScalarWhereInput!]
+  upsert: [CardUpsertWithWhereUniqueNestedInput!]
+}
+
+input CardUpdateManyMutationInput {
+  front: String
+  back: String
+}
+
+input CardUpdateManyWithWhereNestedInput {
+  where: CardScalarWhereInput!
+  data: CardUpdateManyDataInput!
+}
+
+input CardUpdateWithWhereUniqueNestedInput {
+  where: CardWhereUniqueInput!
+  data: CardUpdateDataInput!
+}
+
+input CardUpsertWithWhereUniqueNestedInput {
+  where: CardWhereUniqueInput!
+  update: CardUpdateDataInput!
+  create: CardCreateInput!
+}
+
+input CardWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CardWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CardWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CardWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  front: String
+
+  """All values that are not equal to given value."""
+  front_not: String
+
+  """All values that are contained in given list."""
+  front_in: [String!]
+
+  """All values that are not contained in given list."""
+  front_not_in: [String!]
+
+  """All values less than the given value."""
+  front_lt: String
+
+  """All values less than or equal the given value."""
+  front_lte: String
+
+  """All values greater than the given value."""
+  front_gt: String
+
+  """All values greater than or equal the given value."""
+  front_gte: String
+
+  """All values containing the given string."""
+  front_contains: String
+
+  """All values not containing the given string."""
+  front_not_contains: String
+
+  """All values starting with the given string."""
+  front_starts_with: String
+
+  """All values not starting with the given string."""
+  front_not_starts_with: String
+
+  """All values ending with the given string."""
+  front_ends_with: String
+
+  """All values not ending with the given string."""
+  front_not_ends_with: String
+  back: String
+
+  """All values that are not equal to given value."""
+  back_not: String
+
+  """All values that are contained in given list."""
+  back_in: [String!]
+
+  """All values that are not contained in given list."""
+  back_not_in: [String!]
+
+  """All values less than the given value."""
+  back_lt: String
+
+  """All values less than or equal the given value."""
+  back_lte: String
+
+  """All values greater than the given value."""
+  back_gt: String
+
+  """All values greater than or equal the given value."""
+  back_gte: String
+
+  """All values containing the given string."""
+  back_contains: String
+
+  """All values not containing the given string."""
+  back_not_contains: String
+
+  """All values starting with the given string."""
+  back_starts_with: String
+
+  """All values not starting with the given string."""
+  back_not_starts_with: String
+
+  """All values ending with the given string."""
+  back_ends_with: String
+
+  """All values not ending with the given string."""
+  back_not_ends_with: String
+}
+
+input CardWhereUniqueInput {
+  id: ID
+}
+
+scalar DateTime
+
+type Deck implements Node {
+  id: ID!
+  name: String!
+  cards(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Card!]
+}
+
+"""A connection to a list of items."""
+type DeckConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [DeckEdge]!
+  aggregate: AggregateDeck!
+}
+
+input DeckCreateInput {
+  id: ID
+  name: String!
+  cards: CardCreateManyInput
+}
+
+input DeckCreateManyInput {
+  create: [DeckCreateInput!]
+  connect: [DeckWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type DeckEdge {
+  """The item at the end of the edge."""
+  node: Deck!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum DeckOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type DeckPreviousValues {
+  id: ID!
+  name: String!
+}
+
+input DeckScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DeckScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DeckScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DeckScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+}
+
+type DeckSubscriptionPayload {
+  mutation: MutationType!
+  node: Deck
+  updatedFields: [String!]
+  previousValues: DeckPreviousValues
+}
+
+input DeckSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DeckSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DeckSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DeckSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: DeckWhereInput
+}
+
+input DeckUpdateDataInput {
+  name: String
+  cards: CardUpdateManyInput
+}
+
+input DeckUpdateInput {
+  name: String
+  cards: CardUpdateManyInput
+}
+
+input DeckUpdateManyDataInput {
+  name: String
+}
+
+input DeckUpdateManyInput {
+  create: [DeckCreateInput!]
+  connect: [DeckWhereUniqueInput!]
+  set: [DeckWhereUniqueInput!]
+  disconnect: [DeckWhereUniqueInput!]
+  delete: [DeckWhereUniqueInput!]
+  update: [DeckUpdateWithWhereUniqueNestedInput!]
+  updateMany: [DeckUpdateManyWithWhereNestedInput!]
+  deleteMany: [DeckScalarWhereInput!]
+  upsert: [DeckUpsertWithWhereUniqueNestedInput!]
+}
+
+input DeckUpdateManyMutationInput {
+  name: String
+}
+
+input DeckUpdateManyWithWhereNestedInput {
+  where: DeckScalarWhereInput!
+  data: DeckUpdateManyDataInput!
+}
+
+input DeckUpdateWithWhereUniqueNestedInput {
+  where: DeckWhereUniqueInput!
+  data: DeckUpdateDataInput!
+}
+
+input DeckUpsertWithWhereUniqueNestedInput {
+  where: DeckWhereUniqueInput!
+  update: DeckUpdateDataInput!
+  create: DeckCreateInput!
+}
+
+input DeckWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DeckWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DeckWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DeckWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  cards_every: CardWhereInput
+  cards_some: CardWhereInput
+  cards_none: CardWhereInput
+}
+
+input DeckWhereUniqueInput {
+  id: ID
+}
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -18,11 +750,23 @@ scalar Long
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
+  createDeck(data: DeckCreateInput!): Deck!
+  createCard(data: CardCreateInput!): Card!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateDeck(data: DeckUpdateInput!, where: DeckWhereUniqueInput!): Deck
+  updateCard(data: CardUpdateInput!, where: CardWhereUniqueInput!): Card
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteDeck(where: DeckWhereUniqueInput!): Deck
+  deleteCard(where: CardWhereUniqueInput!): Card
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertDeck(where: DeckWhereUniqueInput!, create: DeckCreateInput!, update: DeckUpdateInput!): Deck!
+  upsertCard(where: CardWhereUniqueInput!, create: CardCreateInput!, update: CardUpdateInput!): Card!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyDecks(data: DeckUpdateManyMutationInput!, where: DeckWhereInput): BatchPayload!
+  updateManyCards(data: CardUpdateManyMutationInput!, where: CardWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyDecks(where: DeckWhereInput): BatchPayload!
+  deleteManyCards(where: CardWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -54,8 +798,14 @@ type PageInfo {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  decks(where: DeckWhereInput, orderBy: DeckOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Deck]!
+  cards(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Card]!
   user(where: UserWhereUniqueInput!): User
+  deck(where: DeckWhereUniqueInput!): Deck
+  card(where: CardWhereUniqueInput!): Card
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  decksConnection(where: DeckWhereInput, orderBy: DeckOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DeckConnection!
+  cardsConnection(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CardConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -66,11 +816,20 @@ type Query {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  deck(where: DeckSubscriptionWhereInput): DeckSubscriptionPayload
+  card(where: CardSubscriptionWhereInput): CardSubscriptionPayload
 }
 
 type User implements Node {
   id: ID!
   name: String!
+  email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  decks(where: DeckWhereInput, orderBy: DeckOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Deck!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -86,6 +845,11 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   name: String!
+  email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  decks: DeckCreateManyInput
 }
 
 """An edge in a connection."""
@@ -102,11 +866,29 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  email_ASC
+  email_DESC
+  password_ASC
+  password_DESC
+  resetToken_ASC
+  resetToken_DESC
+  resetTokenExpiry_ASC
+  resetTokenExpiry_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type UserPreviousValues {
   id: ID!
   name: String!
+  email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type UserSubscriptionPayload {
@@ -148,10 +930,19 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  decks: DeckUpdateManyInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
 }
 
 input UserWhereInput {
@@ -243,8 +1034,198 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  email: String
+
+  """All values that are not equal to given value."""
+  email_not: String
+
+  """All values that are contained in given list."""
+  email_in: [String!]
+
+  """All values that are not contained in given list."""
+  email_not_in: [String!]
+
+  """All values less than the given value."""
+  email_lt: String
+
+  """All values less than or equal the given value."""
+  email_lte: String
+
+  """All values greater than the given value."""
+  email_gt: String
+
+  """All values greater than or equal the given value."""
+  email_gte: String
+
+  """All values containing the given string."""
+  email_contains: String
+
+  """All values not containing the given string."""
+  email_not_contains: String
+
+  """All values starting with the given string."""
+  email_starts_with: String
+
+  """All values not starting with the given string."""
+  email_not_starts_with: String
+
+  """All values ending with the given string."""
+  email_ends_with: String
+
+  """All values not ending with the given string."""
+  email_not_ends_with: String
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
+  resetToken: String
+
+  """All values that are not equal to given value."""
+  resetToken_not: String
+
+  """All values that are contained in given list."""
+  resetToken_in: [String!]
+
+  """All values that are not contained in given list."""
+  resetToken_not_in: [String!]
+
+  """All values less than the given value."""
+  resetToken_lt: String
+
+  """All values less than or equal the given value."""
+  resetToken_lte: String
+
+  """All values greater than the given value."""
+  resetToken_gt: String
+
+  """All values greater than or equal the given value."""
+  resetToken_gte: String
+
+  """All values containing the given string."""
+  resetToken_contains: String
+
+  """All values not containing the given string."""
+  resetToken_not_contains: String
+
+  """All values starting with the given string."""
+  resetToken_starts_with: String
+
+  """All values not starting with the given string."""
+  resetToken_not_starts_with: String
+
+  """All values ending with the given string."""
+  resetToken_ends_with: String
+
+  """All values not ending with the given string."""
+  resetToken_not_ends_with: String
+  resetTokenExpiry: Float
+
+  """All values that are not equal to given value."""
+  resetTokenExpiry_not: Float
+
+  """All values that are contained in given list."""
+  resetTokenExpiry_in: [Float!]
+
+  """All values that are not contained in given list."""
+  resetTokenExpiry_not_in: [Float!]
+
+  """All values less than the given value."""
+  resetTokenExpiry_lt: Float
+
+  """All values less than or equal the given value."""
+  resetTokenExpiry_lte: Float
+
+  """All values greater than the given value."""
+  resetTokenExpiry_gt: Float
+
+  """All values greater than or equal the given value."""
+  resetTokenExpiry_gte: Float
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  decks_every: DeckWhereInput
+  decks_some: DeckWhereInput
+  decks_none: DeckWhereInput
 }
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }
