@@ -145,6 +145,30 @@ const Mutations = {
 
     return deck;
   },
+
+  async deleteDeck(parent, args, ctx) {
+    const { user } = ctx.request;
+    if (!user) {
+      throw new Error('You must be logged in to create a deck.');
+    }
+
+    if (!user.decks.some(deck => deck.id === args.id)) {
+      throw new Error('This deck does not belong to you, you cannot delete it.');
+    }
+
+    const deck = await ctx.db.query.deck({ where: { id: args.id } });
+    if (!deck) {
+      throw new Error(`Deck ${args.id} does not exist`);
+    }
+
+    await ctx.db.mutation.deleteDeck({
+      where: { id: args.id },
+    });
+
+    return {
+      message: `Deck ${args.id} deleted successfully.`,
+    };
+  },
 };
 
 module.exports = Mutations;
