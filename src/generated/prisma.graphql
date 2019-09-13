@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/shawn-reisner-e6118b/flash-cards/dev
-# timestamp: Thu Sep 12 2019 08:06:18 GMT-0600 (Mountain Daylight Time)
+# timestamp: Fri Sep 13 2019 09:44:22 GMT-0600 (Mountain Daylight Time)
 
 type AggregateCard {
   count: Int!
@@ -522,6 +522,7 @@ type Deck implements Node {
   id: ID!
   name: String!
   cards(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Card!]
+  user: User!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -540,11 +541,18 @@ input DeckCreateInput {
   id: ID
   name: String!
   cards: CardCreateManyInput
+  user: UserCreateOneWithoutDecksInput!
 }
 
-input DeckCreateManyInput {
-  create: [DeckCreateInput!]
+input DeckCreateManyWithoutUserInput {
+  create: [DeckCreateWithoutUserInput!]
   connect: [DeckWhereUniqueInput!]
+}
+
+input DeckCreateWithoutUserInput {
+  id: ID
+  name: String!
+  cards: CardCreateManyInput
 }
 
 """An edge in a connection."""
@@ -746,34 +754,30 @@ input DeckSubscriptionWhereInput {
   node: DeckWhereInput
 }
 
-input DeckUpdateDataInput {
-  name: String
-  cards: CardUpdateManyInput
-}
-
 input DeckUpdateInput {
   name: String
   cards: CardUpdateManyInput
+  user: UserUpdateOneRequiredWithoutDecksInput
 }
 
 input DeckUpdateManyDataInput {
   name: String
 }
 
-input DeckUpdateManyInput {
-  create: [DeckCreateInput!]
+input DeckUpdateManyMutationInput {
+  name: String
+}
+
+input DeckUpdateManyWithoutUserInput {
+  create: [DeckCreateWithoutUserInput!]
   connect: [DeckWhereUniqueInput!]
   set: [DeckWhereUniqueInput!]
   disconnect: [DeckWhereUniqueInput!]
   delete: [DeckWhereUniqueInput!]
-  update: [DeckUpdateWithWhereUniqueNestedInput!]
+  update: [DeckUpdateWithWhereUniqueWithoutUserInput!]
   updateMany: [DeckUpdateManyWithWhereNestedInput!]
   deleteMany: [DeckScalarWhereInput!]
-  upsert: [DeckUpsertWithWhereUniqueNestedInput!]
-}
-
-input DeckUpdateManyMutationInput {
-  name: String
+  upsert: [DeckUpsertWithWhereUniqueWithoutUserInput!]
 }
 
 input DeckUpdateManyWithWhereNestedInput {
@@ -781,15 +785,20 @@ input DeckUpdateManyWithWhereNestedInput {
   data: DeckUpdateManyDataInput!
 }
 
-input DeckUpdateWithWhereUniqueNestedInput {
-  where: DeckWhereUniqueInput!
-  data: DeckUpdateDataInput!
+input DeckUpdateWithoutUserDataInput {
+  name: String
+  cards: CardUpdateManyInput
 }
 
-input DeckUpsertWithWhereUniqueNestedInput {
+input DeckUpdateWithWhereUniqueWithoutUserInput {
   where: DeckWhereUniqueInput!
-  update: DeckUpdateDataInput!
-  create: DeckCreateInput!
+  data: DeckUpdateWithoutUserDataInput!
+}
+
+input DeckUpsertWithWhereUniqueWithoutUserInput {
+  where: DeckWhereUniqueInput!
+  update: DeckUpdateWithoutUserDataInput!
+  create: DeckCreateWithoutUserInput!
 }
 
 input DeckWhereInput {
@@ -928,6 +937,7 @@ input DeckWhereInput {
   cards_every: CardWhereInput
   cards_some: CardWhereInput
   cards_none: CardWhereInput
+  user: UserWhereInput
 }
 
 input DeckWhereUniqueInput {
@@ -1043,7 +1053,22 @@ input UserCreateInput {
   password: String!
   resetToken: String
   resetTokenExpiry: Float
-  decks: DeckCreateManyInput
+  decks: DeckCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutDecksInput {
+  create: UserCreateWithoutDecksInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutDecksInput {
+  id: ID
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
 }
 
 """An edge in a connection."""
@@ -1132,7 +1157,7 @@ input UserUpdateInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
-  decks: DeckUpdateManyInput
+  decks: DeckUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -1142,6 +1167,27 @@ input UserUpdateManyMutationInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
+}
+
+input UserUpdateOneRequiredWithoutDecksInput {
+  create: UserCreateWithoutDecksInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutDecksDataInput
+  upsert: UserUpsertWithoutDecksInput
+}
+
+input UserUpdateWithoutDecksDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+}
+
+input UserUpsertWithoutDecksInput {
+  update: UserUpdateWithoutDecksDataInput!
+  create: UserCreateWithoutDecksInput!
 }
 
 input UserWhereInput {

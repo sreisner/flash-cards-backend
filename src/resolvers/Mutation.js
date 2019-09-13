@@ -94,7 +94,7 @@ const Mutations = {
   },
   async resetPassword(parent, args, ctx) {
     if (args.password !== args.confirmPassword) {
-      throw new Error("Yo Passwords don't match!");
+      throw new Error("The asswords don't match!");
     }
 
     const [user] = await ctx.db.query.users({
@@ -121,6 +121,29 @@ const Mutations = {
     setTokenCookie(user.id, ctx);
 
     return updatedUser;
+  },
+
+  async createDeck(parent, args, ctx, info) {
+    const { user } = ctx.request;
+    if (!user) {
+      throw new Error('You must be logged in to create a deck.');
+    }
+
+    const deck = await ctx.db.mutation.createDeck(
+      {
+        data: {
+          name: args.name,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      },
+      info
+    );
+
+    return deck;
   },
 };
 

@@ -15,6 +15,7 @@ type Deck {
   id: ID! @id
   name: String!
   cards: [Card]!
+  user: User!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
