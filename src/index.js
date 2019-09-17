@@ -18,7 +18,7 @@ server.express.use(async (req, res, next) => {
     {
       where: { id: userId },
     },
-    '{ id, email, firstName, decks { id } }'
+    '{ id, email, firstName, decks { id, cards { id } } }'
   );
 
   /* eslint-disable-next-line require-atomic-updates */

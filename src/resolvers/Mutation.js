@@ -218,6 +218,31 @@ const Mutations = {
       info
     );
   },
+
+  async updateCard(parent, args, ctx, info) {
+    const { id, front, back } = args;
+    const user = requireLogggedIn(ctx.request);
+
+    const userOwnsCard = user.decks
+      .reduce((acc, curr) => acc.concat(curr.cards), [])
+      .some(card => card.id === id);
+    if (!userOwnsCard) {
+      throw new Error('This card does not belong to you.');
+    }
+
+    return ctx.db.mutation.updateCard(
+      {
+        data: {
+          front,
+          back,
+        },
+        where: {
+          id,
+        },
+      },
+      info
+    );
+  },
 };
 
 module.exports = Mutations;

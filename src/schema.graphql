@@ -14,6 +14,7 @@ type Mutation {
   updateDeck(id: ID!, name: String!): Deck!
   deleteDeck(id: ID!): SuccessMessage
   createCard(front: String!, back: String!, deckId: ID!): Card!
+  updateCard(id: ID!, front: String!, back: String!): Card!
 }
 
 type Query {
