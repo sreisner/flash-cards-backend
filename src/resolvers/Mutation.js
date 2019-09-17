@@ -13,7 +13,7 @@ function setTokenCookie(userId, ctx) {
   });
 }
 
-function requireLogggedIn(request) {
+function requireUserLoggedIn(request) {
   const { user } = request;
 
   if (!user) {
@@ -21,6 +21,26 @@ function requireLogggedIn(request) {
   }
 
   return user;
+}
+
+function requireUserOwnsDeck(user, deckId) {
+  const deck = user.decks.find(deck => deck.id === deckId);
+  if (!deck) {
+    throw new Error('This deck does not belong to you or does not exist.');
+  }
+
+  return deck;
+}
+
+function requireUserOwnsCard(user, cardId) {
+  const card = user.decks
+    .reduce((acc, curr) => acc.concat(curr.cards), [])
+    .find(card => card.id === cardId);
+  if (!card) {
+    throw new Error('This card does not belong to you.');
+  }
+
+  return card;
 }
 
 const Mutations = {
@@ -134,7 +154,7 @@ const Mutations = {
   },
 
   async createDeck(parent, args, ctx, info) {
-    const user = requireLogggedIn(ctx.request);
+    const user = requireUserLoggedIn(ctx.request);
 
     const deck = await ctx.db.mutation.createDeck(
       {
@@ -155,11 +175,8 @@ const Mutations = {
 
   async updateDeck(parent, args, ctx, info) {
     const { id, name } = args;
-    const user = requireLogggedIn(ctx.request);
-
-    if (!user.decks.some(deck => deck.id === id)) {
-      throw new Error('This deck does not belong to you.');
-    }
+    const user = requireUserLoggedIn(ctx.request);
+    requireUserOwnsDeck(user, id);
 
     return ctx.db.mutation.updateDeck(
       {
@@ -175,33 +192,25 @@ const Mutations = {
   },
 
   async deleteDeck(parent, args, ctx) {
-    const user = requireLogggedIn(ctx.request);
+    const { id } = args;
 
-    if (!user.decks.some(deck => deck.id === args.id)) {
-      throw new Error('This deck does not belong to you, you cannot delete it.');
-    }
-
-    const deck = await ctx.db.query.deck({ where: { id: args.id } });
-    if (!deck) {
-      throw new Error(`Deck ${args.id} does not exist`);
-    }
+    const user = requireUserLoggedIn(ctx.request);
+    requireUserOwnsDeck(user, id);
 
     await ctx.db.mutation.deleteDeck({
-      where: { id: args.id },
+      where: { id },
     });
 
     return {
-      message: `Deck ${args.id} deleted successfully.`,
+      message: `Deck ${id} deleted successfully.`,
     };
   },
 
   async createCard(parent, args, ctx, info) {
-    const user = requireLogggedIn(ctx.request);
     const { front, back, deckId } = args;
 
-    if (!user.decks.some(deck => deck.id === deckId)) {
-      throw new Error('You do not have permission to modify this deck.');
-    }
+    const user = requireUserLoggedIn(ctx.request);
+    requireUserOwnsDeck(user, deckId);
 
     return await ctx.db.mutation.createCard(
       {
@@ -221,14 +230,8 @@ const Mutations = {
 
   async updateCard(parent, args, ctx, info) {
     const { id, front, back } = args;
-    const user = requireLogggedIn(ctx.request);
-
-    const userOwnsCard = user.decks
-      .reduce((acc, curr) => acc.concat(curr.cards), [])
-      .some(card => card.id === id);
-    if (!userOwnsCard) {
-      throw new Error('This card does not belong to you.');
-    }
+    const user = requireUserLoggedIn(ctx.request);
+    requireUserOwnsCard(user, id);
 
     return ctx.db.mutation.updateCard(
       {
@@ -236,6 +239,22 @@ const Mutations = {
           front,
           back,
         },
+        where: {
+          id,
+        },
+      },
+      info
+    );
+  },
+
+  async deleteCard(parent, args, ctx, info) {
+    const { id } = args;
+
+    const user = requireUserLoggedIn(ctx.request);
+    requireUserOwnsCard(user, id);
+
+    return ctx.db.mutation.deleteCard(
+      {
         where: {
           id,
         },

@@ -7,14 +7,15 @@ type SuccessMessage {
 type Mutation {
   signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
   signin(email: String!, password: String!): User!
-  signout: SuccessMessage
-  requestReset(email: String!): SuccessMessage
+  signout: SuccessMessage!
+  requestReset(email: String!): SuccessMessage!
   resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
   createDeck(name: String!): Deck!
   updateDeck(id: ID!, name: String!): Deck!
-  deleteDeck(id: ID!): SuccessMessage
+  deleteDeck(id: ID!): SuccessMessage!
   createCard(front: String!, back: String!, deckId: ID!): Card!
   updateCard(id: ID!, front: String!, back: String!): Card!
+  deleteCard(id: ID!): SuccessMessage!
 }
 
 type Query {
