@@ -22,8 +22,9 @@ type Deck {
 
 type Card {
   id: ID! @id
-  front: String
-  back: String
+  front: String!
+  back: String!
+  deck: Deck!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

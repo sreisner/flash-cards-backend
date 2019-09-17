@@ -13,6 +13,16 @@ function setTokenCookie(userId, ctx) {
   });
 }
 
+function requireLogggedIn(request) {
+  const { user } = request;
+
+  if (!user) {
+    throw new Error('You must be logged in to do that.');
+  }
+
+  return user;
+}
+
 const Mutations = {
   async signup(parent, args, ctx, info) {
     const user = await ctx.db.mutation.createUser(
@@ -70,7 +80,7 @@ const Mutations = {
   async requestReset(parent, args, ctx) {
     const user = await ctx.db.query.user({ where: { email: args.email } });
     if (!user) {
-      throw new Error(`No such user found for email ${args.email}`);
+      throw new Error(`No user found for email ${args.email}`);
     }
 
     const randomBytesPromiseified = promisify(randomBytes);
@@ -124,10 +134,7 @@ const Mutations = {
   },
 
   async createDeck(parent, args, ctx, info) {
-    const { user } = ctx.request;
-    if (!user) {
-      throw new Error('You must be logged in to create a deck.');
-    }
+    const user = requireLogggedIn(ctx.request);
 
     const deck = await ctx.db.mutation.createDeck(
       {
@@ -147,10 +154,7 @@ const Mutations = {
   },
 
   async deleteDeck(parent, args, ctx) {
-    const { user } = ctx.request;
-    if (!user) {
-      throw new Error('You must be logged in to create a deck.');
-    }
+    const user = requireLogggedIn(ctx.request);
 
     if (!user.decks.some(deck => deck.id === args.id)) {
       throw new Error('This deck does not belong to you, you cannot delete it.');
@@ -168,6 +172,30 @@ const Mutations = {
     return {
       message: `Deck ${args.id} deleted successfully.`,
     };
+  },
+
+  async createCard(parent, args, ctx, info) {
+    const user = requireLogggedIn(ctx.request);
+    const { front, back, deckId } = args;
+
+    if (!user.decks.some(deck => deck.id === deckId)) {
+      throw new Error('You do not have permission to modify this deck.');
+    }
+
+    return await ctx.db.mutation.createCard(
+      {
+        data: {
+          front,
+          back,
+          deck: {
+            connect: {
+              id: deckId,
+            },
+          },
+        },
+      },
+      info
+    );
   },
 };
 
