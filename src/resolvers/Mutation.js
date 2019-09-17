@@ -153,6 +153,27 @@ const Mutations = {
     return deck;
   },
 
+  async updateDeck(parent, args, ctx, info) {
+    const { id, name } = args;
+    const user = requireLogggedIn(ctx.request);
+
+    if (!user.decks.some(deck => deck.id === id)) {
+      throw new Error('This deck does not belong to you.');
+    }
+
+    return ctx.db.mutation.updateDeck(
+      {
+        data: {
+          name,
+        },
+        where: {
+          id,
+        },
+      },
+      info
+    );
+  },
+
   async deleteDeck(parent, args, ctx) {
     const user = requireLogggedIn(ctx.request);
 

@@ -11,6 +11,7 @@ type Mutation {
   requestReset(email: String!): SuccessMessage
   resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
   createDeck(name: String!): Deck!
+  updateDeck(id: ID!, name: String!): Deck!
   deleteDeck(id: ID!): SuccessMessage
   createCard(front: String!, back: String!, deckId: ID!): Card!
 }
