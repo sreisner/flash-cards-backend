@@ -7,7 +7,8 @@
     "start": "nodemon -e js,graphql -x node src/index.js",
     "dev": "nodemon -e js,graphql -x node --inspect src/index.js",
     "ngrok": "ngrok http 4000 -subdomain shawn-flash-yoga",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "seed": "prisma reset -f; prisma seed"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
     "babel-eslint": "^10.0.3",
     "dotenv": "^8.1.0",
     "eslint": "^6.3.0",
+    "faker": "^4.1.0",
     "husky": "^3.0.5"
   },
   "eslintConfig": {
