@@ -197,6 +197,13 @@ const Mutations = {
     const user = requireUserLoggedIn(ctx.request);
     requireUserOwnsDeck(user, id);
 
+    const deck = await ctx.db.query.deck({ where: { id } }, `{ cards { id } }`);
+    for (let i = 0; i < deck.cards.length; i++) {
+      await ctx.db.mutation.deleteCard({
+        where: { id: deck.cards[i].id },
+      });
+    }
+
     await ctx.db.mutation.deleteDeck({
       where: { id },
     });
