@@ -20,5 +20,6 @@ type Mutation {
 
 type Query {
   me: User
-  deck(id: ID!): Deck!
+  deck(id: ID!): Deck
+  decks(orderBy: DeckOrderByInput): [Deck]
 }

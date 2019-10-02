@@ -29,6 +29,23 @@ const Query = {
       info
     );
   },
+
+  async decks(parent, args, ctx, info) {
+    if (!ctx.request.user) {
+      return null;
+    }
+
+    return await ctx.db.query.decks(
+      {
+        where: {
+          user: {
+            id: ctx.request.user.id,
+          },
+        },
+      },
+      info
+    );
+  },
 };
 
 module.exports = Query;
