@@ -123,10 +123,6 @@ const Mutations = {
     return { message: 'Thanks!' };
   },
   async resetPassword(parent, args, ctx) {
-    if (args.password !== args.confirmPassword) {
-      throw new Error("The asswords don't match!");
-    }
-
     const [user] = await ctx.db.query.users({
       where: {
         resetToken: args.resetToken,
