@@ -150,12 +150,15 @@ const Mutations = {
   },
 
   async createDeck(parent, args, ctx, info) {
+    const { id, name } = args;
+
     const user = requireUserLoggedIn(ctx.request);
 
     const deck = await ctx.db.mutation.createDeck(
       {
         data: {
-          name: args.name,
+          id,
+          name,
           user: {
             connect: {
               id: user.id,
@@ -210,7 +213,7 @@ const Mutations = {
   },
 
   async createCard(parent, args, ctx, info) {
-    const { front, back, deckId } = args;
+    const { id, front, back, deckId } = args;
 
     const user = requireUserLoggedIn(ctx.request);
     requireUserOwnsDeck(user, deckId);
@@ -218,6 +221,7 @@ const Mutations = {
     return await ctx.db.mutation.createCard(
       {
         data: {
+          id,
           front,
           back,
           deck: {
