@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { transport, template } = require('../mail');
 const { promisify } = require('util');
 const { randomBytes } = require('crypto');
+const { requireUserLoggedIn } = require('../utils');
 
 // Logs the user in
 function setTokenCookie(userId, ctx) {
@@ -11,16 +12,6 @@ function setTokenCookie(userId, ctx) {
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year cookie
   });
-}
-
-function requireUserLoggedIn(request) {
-  const { user } = request;
-
-  if (!user) {
-    throw new Error('You must be logged in to do that.');
-  }
-
-  return user;
 }
 
 function requireUserOwnsDeck(user, deckId) {

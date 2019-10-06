@@ -1,4 +1,8 @@
+const { requireUserLoggedIn } = require('../utils');
+const { forwardTo } = require('prisma-binding');
+
 const Query = {
+  decksConnection: forwardTo('db'),
   async me(parent, args, ctx, info) {
     if (!ctx.request.user) {
       return null;
@@ -14,9 +18,7 @@ const Query = {
   },
 
   async deck(parent, args, ctx, info) {
-    if (!ctx.request.user) {
-      return null;
-    }
+    requireUserLoggedIn(ctx.request);
 
     if (!ctx.request.user.decks.find(deck => deck.id === args.id)) {
       throw `This deck doesn't exist or you don't have permission to see this deck!`;
@@ -31,9 +33,7 @@ const Query = {
   },
 
   async decks(parent, args, ctx, info) {
-    if (!ctx.request.user) {
-      return null;
-    }
+    requireUserLoggedIn(ctx.request);
 
     return await ctx.db.query.decks(
       {

@@ -22,4 +22,5 @@ type Query {
   me: User
   deck(id: ID!): Deck
   decks(orderBy: DeckOrderByInput): [Deck]
+  decksConnection(where: DeckWhereInput): DeckConnection!
 }
