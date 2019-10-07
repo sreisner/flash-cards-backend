@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [{ "src": "src/index.js", "use": "@now/node-server" }],
+  "routes": [{ "src": "/", "dest": "/src/index.js" }],
+  "env": {
+    "PRISMA_ENDPOINT": "@prisma-endpoint",
+    "PRISMA_SECRET": "@prisma-secret",
+    "APP_SECRET": "@app-secret",
+    "MAIL_HOST": "@mail-host",
+    "MAIL_PORT": "@mail-port",
+    "MAIL_USER": "@mail-user",
+    "MAIL_PASS": "@mail-pass",
+    "FRONTEND_URL": "@frontend-url"
+  }
+}
