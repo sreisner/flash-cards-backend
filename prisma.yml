@@ -1,5 +1,6 @@
 datamodel: datamodel.graphql
-endpoint: ${env:PRISMA_ENDPOINT}
+#endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: https://flash-cards-85c9563b70.herokuapp.com/flash-cards/prod
 secret: ${env:PRISMA_SECRET}
 hooks:
   post-deploy:
