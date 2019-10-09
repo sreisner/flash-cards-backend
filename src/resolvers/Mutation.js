@@ -50,10 +50,10 @@ const Mutations = {
     setTokenCookie(user.id, ctx);
 
     await transport.sendMail({
-      from: 'do-not-reply@brightflashcards.com',
+      from: 'do-not-reply@simpleflashcards.com',
       to: user.email,
-      subject: 'Welcome to Bright!',
-      html: template(`Welcome to Bright!`),
+      subject: 'Welcome to Simple Flashcards!',
+      html: template(`Welcome to Simple Flashcards!`),
     });
 
     return await ctx.db.query.user(
@@ -103,7 +103,7 @@ const Mutations = {
     });
 
     await transport.sendMail({
-      from: 'donotreply@brightflashcards.com',
+      from: 'do-not-reply@simpleflashcards.com',
       to: user.email,
       subject: 'Your Password Reset Token',
       html: template(`Your Password Reset Token is here!
