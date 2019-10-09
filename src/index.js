@@ -1,5 +1,5 @@
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 const createServer = require('./createServer');
 const db = require('./db');
 const jwt = require('jsonwebtoken');
