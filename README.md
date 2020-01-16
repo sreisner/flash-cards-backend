@@ -21,6 +21,7 @@ Hello! Welcome to _Simple Flash Cards_.
     - See "Environment Variables"
     - Clone and run front end project (https://github.com/sreisner/flash-cards-frontend)
     - Install all dependencies with `npm install`
+    - Install `now` globally with `npm install -g now`
 
   - **Dev Mode w/ Hot Reloading**: `npm run dev`
   - **Production Mode**: `npm start`
@@ -28,3 +29,4 @@ Hello! Welcome to _Simple Flash Cards_.
 - Linting the project: `npm run lint`
 - Seeding the database: `npm run seed`
   - **Note**: This will delete all data from the database before seeding.
+- Deploying to production: `now --prod`
